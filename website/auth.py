@@ -19,7 +19,7 @@ def login():
             if check_password_hash(user.password, password):
                 flash('Вы вошли в аккаунт', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('routes.home'))
+                return redirect(url_for('text_page.text'))
             else:
                 flash('Неверный пароль или email, попробуйте ещё раз', category='error')
         else:
@@ -63,6 +63,6 @@ def sign_up():
             db.session.commit()
             login_user(new_user, remember=True)
             flash("Учётная запись создана успешно!", category='success')
-            return redirect(url_for('routes.home'))
+            return redirect(url_for('text_page.text'))
 
     return render_template("sign_up.html", user=current_user)

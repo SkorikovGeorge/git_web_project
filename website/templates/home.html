@@ -1,18 +1,5 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
 
-<h1 align="center">Текст</h1>
-<ul class="list-group list-group-flush" id="texts">
-  {% for text in user.texts %}
-  <li class="list-group-item">
-    {{ text.data }}
-  </li>
-  {% endfor %}
-</ul>
-<form method="POST">
-  <textarea name="text" id="text" class="form-control"></textarea>
-  <br />
-  <div align="center">
-    <button type="submit" class="btn btn-primary">Добавить текст</button>
-  </div>
-</form>
+<h1 align="center">Начальная страница привет</h1>
+
 {% endblock %}
