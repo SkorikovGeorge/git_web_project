@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
-from .models import User
+from .models import User, Info
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -19,7 +19,7 @@ def login():
             if check_password_hash(user.password, password):
                 flash('Вы вошли в аккаунт', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('text_page.text'))
+                return redirect(url_for('auth.text'))
             else:
                 flash('Неверный пароль или email, попробуйте ещё раз', category='error')
         else:
@@ -33,6 +33,24 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
+
+
+@auth.route('/text_page', methods=['GET', 'POST'])
+@login_required
+def text():
+    if request.method == 'POST':
+        user_text = request.form.get('text')
+
+        if len(user_text) < 1:
+            flash('Текст слишком короткий, попробуйте ещё раз', category='error')
+        else:
+            new_text = Info(user_id=current_user.id)
+            new_text.info = user_text
+            db.session.add(new_text)
+            db.session.commit()
+            flash('Текст добавлен', category='success')
+
+    return render_template("text_page.html", user=current_user)
 
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
@@ -63,6 +81,6 @@ def sign_up():
             db.session.commit()
             login_user(new_user, remember=True)
             flash("Учётная запись создана успешно!", category='success')
-            return redirect(url_for('text_page.text'))
+            return redirect(url_for('auth.text'))
 
     return render_template("sign_up.html", user=current_user)
