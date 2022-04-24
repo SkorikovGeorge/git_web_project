@@ -14,12 +14,12 @@ def home():
         user_text = request.form.get('text')
 
         if len(user_text) < 1:
-            flash('Text is too short!', category='error')
+            flash('Текст слишком короткий, попробуйте ещё раз', category='error')
         else:
             new_text = Info(user_id=current_user.id)
             new_text.info = user_text
             db.session.add(new_text)
             db.session.commit()
-            flash('Info added!', category='success')
+            flash('Текст добавлен', category='success')
 
     return render_template("home.html", user=current_user)
