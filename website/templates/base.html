@@ -24,13 +24,11 @@
           <div class="collapse navbar-collapse" id="navbar">
             <div class="navbar-nav">
               {% if user.is_authenticated %}
-              <a class="'nav-item nav-link" id="home0" href="/">Главная</a>
-              <a class="'nav-item nav-link" id="logout" href="/logout">Выйти</a>
-              <a class="'nav-item nav-link" id="text_page" href="/logout">Текст</a>
+              <a class="nav-item nav-link" id="home" href="/">Главная</a>
+              <a class="nav-item nav-link" id="logout" href="/logout">Выйти</a>
               {% else %}
-              <a class="'nav-item nav-link" id="home" href="/">Главная</a>
-              <a class="'nav-item nav-link" id="login" href="/login">Войти</a>
-              <a class="'nav-item nav-link" id="signUp" href="/sign-up">Регистрация</a>
+              <a class="nav-item nav-link" id="login" href="/login">Войти</a>
+              <a class="nav-item nav-link" id="signUp" href="/sign-up">Регистрация</a>
               {% endif %}
             </div>
           </div>
@@ -80,7 +78,7 @@
 
       <script
         type="text/javascript"
-        src="{{ url_for('static', filename='index.js') }}"
+        src="{{ url_for('static', filename='deleteinfo.js') }}"
       ></script>
     </body>
 </html>

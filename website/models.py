@@ -1,4 +1,5 @@
 from flask_login import UserMixin
+from flask_login import UserMixin
 from . import db
 
 
@@ -7,7 +8,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(50))
     name = db.Column(db.String(50))
-    notes = db.relationship('Info')
+    all_info = db.relationship('Info')
 
 
 class Info(db.Model):
