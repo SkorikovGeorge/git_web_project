@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
 from . import db
-from .models import Info
+from .models import Info, User
 import json
 
 
@@ -23,6 +23,9 @@ def home():
             db.session.commit()
             flash('Текст добавлен', category='success')
 
+    user_id = current_user.id
+    user_email = current_user.email
+    user_name = current_user.name
     return render_template("home.html", user=current_user)
 
 
