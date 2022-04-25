@@ -35,5 +35,4 @@ def delete_info():
         if info.user_id == current_user.id:
             db.session.delete(info)
             db.session.commit()
-
     return jsonify({})
