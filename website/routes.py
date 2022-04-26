@@ -8,7 +8,7 @@ from ast import literal_eval
 routes = Blueprint('routes', __name__)
 
 
-@routes.route('/', methods=['GET', 'POST'])
+@routes.route('/notes', methods=['GET', 'POST'])
 @login_required
 def home():
     if request.method == 'POST':
