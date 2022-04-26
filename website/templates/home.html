@@ -2,6 +2,22 @@
 <h6 align="right">Email: {{ user.email }}</h6>
 <h6 align="right">ФИО: {{ user.name }}</h6>
 <h1 align="center">Заметки</h1>
+<br />
+<br />
+<form method="POST">
+  <div class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" name="find" id="find" type="search" placeholder="Поиск" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+  </div>
+  <br />
+  <div>
+    <textarea name="info" id="info" class="form-control"></textarea>
+    <br />
+    <div align="center">
+      <button type="submit" class="btn btn-primary">Добавить заметку</button>
+    </div>
+  </div>
+</form>
 <ul class="list-group list-group-flush" id="allinfo">
   {% for info in user.all_info %}
   <li class="list-group-item">
@@ -12,11 +28,5 @@
   </li>
   {% endfor %}
 </ul>
-<form method="POST">
-  <textarea name="info" id="info" class="form-control"></textarea>
-  <br />
-  <div align="center">
-    <button type="submit" class="btn btn-primary">Добавить заметку</button>
-  </div>
-</form>
+<br />
 {% endblock %}
