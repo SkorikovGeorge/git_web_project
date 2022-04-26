@@ -13,7 +13,12 @@ def home():
         user_text = request.form.get('info')
         find_text = request.form.get('find')
         if find_text:
-            print(find_text)
+            all_user_info = Info.query.filter_by(user_id=current_user.id).all()
+            result = []
+            for i in all_user_info:
+                if find_text in i.info:
+                    result.append(i.info)
+                    # result - список текстов найденных с find_text заметок
         else:
             if len(user_text) < 1:
                 flash('Текст слишком короткий, попробуйте ещё раз', category='error')
