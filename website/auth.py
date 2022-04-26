@@ -7,14 +7,18 @@ from werkzeug.security import generate_password_hash, check_password_hash
 auth = Blueprint('auth', __name__)
 
 
+# начальная страница логина
 @auth.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        # забираем введённый email и пароль
         email = request.form.get('email')
         password = request.form.get('password')
 
+        # ищем пользователя в бд по email
         user = User.query.filter_by(email=email).first()
         if user:
+            # проверка хэш пароля по бд
             if check_password_hash(user.password, password):
                 flash('Вы вошли в аккаунт', category='success')
                 login_user(user, remember=True)
@@ -24,24 +28,31 @@ def login():
         else:
             flash('Аккаунта с таким email не существует', category='error')
 
+    # подгружаем html шаблон страницы
     return render_template("login.html", user=current_user)
 
 
+# кнопка для выхода из аккаунта
 @auth.route('/logout')
+# декоратор для ограничения действий пользователя, если он не авторизован
 @login_required
 def logout():
     logout_user()
+    # после выхода перенаправляем на страницу для входа
     return redirect(url_for('auth.login'))
 
 
+# страница регистрации
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
     if request.method == 'POST':
+        # забираем введённые данные
         email = request.form.get('email')
         firstname = request.form.get('firstName')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
+        # проверяем существование такого же email в бд
         user = User.query.filter_by(email=email).first()
         if user:
             flash('Аккаунт с таким email уже существует', category='error')
@@ -54,9 +65,11 @@ def sign_up():
         elif check_password(password1) != 'ок':
             flash(check_password(password1), category='error')
         else:
+            # добавляем пользователя в базу данных
             new_user = User()
             new_user.email = email
             new_user.name = firstname
+            # хэшируем пароль
             new_user.password = generate_password_hash(password1, method='sha256')
             db.session.add(new_user)
             db.session.commit()
@@ -64,6 +77,7 @@ def sign_up():
             flash("Учётная запись создана успешно!", category='success')
             return redirect(url_for('routes.home'))
 
+    # подгружаем html шаблон страницы
     return render_template("sign_up.html", user=current_user)
 
 

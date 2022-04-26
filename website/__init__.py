@@ -7,9 +7,10 @@ db = SQLAlchemy()
 db_name = "database.db"
 
 
+# создание самого приложения
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
+    app.config['SECRET_KEY'] = 'yandex lyceum web project'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_name}'
     db.init_app(app)
 
@@ -19,10 +20,12 @@ def create_app():
     app.register_blueprint(routes, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
+    # импорт классов для бд
     from .models import User, Info
 
     create_database(app)
 
+    # делаем логин менеджер
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
@@ -34,6 +37,8 @@ def create_app():
     return app
 
 
+# создание базы данных
+# (в зависимости от того, существует уже или нет)
 def create_database(app):
     if not path.exists('website/' + db_name):
         db.create_all(app=app)
