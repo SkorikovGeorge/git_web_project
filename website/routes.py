@@ -2,6 +2,8 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from . import db
 from .models import Info
+from ast import literal_eval
+
 
 routes = Blueprint('routes', __name__)
 
@@ -19,6 +21,11 @@ def home():
                 if find_text in i.info:
                     result.append(i.info)
                     # result - список текстов найденных с find_text заметок
+            if result:
+                return redirect(url_for('routes.results', result=result))
+            else:
+                flash('По вашему запросу ничего не найдено', category='error')
+
         else:
             if len(user_text) < 1:
                 flash('Текст слишком короткий, попробуйте ещё раз', category='error')
@@ -30,6 +37,11 @@ def home():
                 flash('Текст добавлен', category='success')
 
     return render_template("home.html", user=current_user)
+
+
+@routes.route('/results/<result>')
+def results(result):
+    return render_template('results.html', result=literal_eval(result), user=current_user)
 
 
 @routes.route('/delete-info/<int:id>')
