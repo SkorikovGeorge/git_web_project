@@ -21,9 +21,6 @@ def home():
             db.session.commit()
             flash('Текст добавлен', category='success')
 
-    user_id = current_user.id
-    user_email = current_user.email
-    user_name = current_user.name
     return render_template("home.html", user=current_user)
 
 

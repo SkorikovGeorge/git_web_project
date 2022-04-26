@@ -1,4 +1,6 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+{% extends "base.html" %} {% block title %}Главная{% endblock %} {% block content %}
+<h6 align="right">Email: {{ user.email }}</h6>
+<h6 align="right">ФИО: {{ user.name }}</h6>
 <h1 align="center">Заметки</h1>
 <ul class="list-group list-group-flush" id="allinfo">
   {% for info in user.all_info %}
