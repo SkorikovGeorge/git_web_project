@@ -1,9 +1,7 @@
-from flask import Blueprint, render_template, request, flash, jsonify
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from . import db
-from .models import Info, User
-import json
-
+from .models import Info
 
 routes = Blueprint('routes', __name__)
 
@@ -29,13 +27,13 @@ def home():
     return render_template("home.html", user=current_user)
 
 
-@routes.route('/delete-info', methods=['POST'])
-def delete_info():
-    info = json.loads(request.data)
-    infoId = info['infoId']
-    info = Info.query.get(infoId)
-    if info:
-        if info.user_id == current_user.id:
-            db.session.delete(info)
-            db.session.commit()
-    return jsonify({})
+@routes.route('/delete-info/<int:id>')
+def delete_info(id):
+    text_to_delete = Info.query.get_or_404(id)
+
+    try:
+        db.session.delete(text_to_delete)
+        db.session.commit()
+        return redirect(url_for('routes.home'))
+    except:
+        return 'Ошибка удаления'

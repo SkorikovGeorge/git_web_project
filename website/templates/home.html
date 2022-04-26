@@ -4,9 +4,9 @@
   {% for info in user.all_info %}
   <li class="list-group-item">
     {{ info.info }}
-    <button type="button" class="close" onClick="deleteInfo({{ info.id }})">
+    <a href="/delete-info/{{ info.id }}" type="button" class="close">
       <span aria-hidden="true">&times;</span>
-    </button>
+    </a>
   </li>
   {% endfor %}
 </ul>
