@@ -23,9 +23,11 @@
     </div>
 </form>
 <ul class="list-group list-group-flush" id="allinfo">
+    <!--вывод на экран всех заметок пользователя-->
     {% for info in user.all_info %}
     <li class="list-group-item">
         {{ info.info }}
+        <!--вызов функции для удаления заметок по нажатию на крестик-->
         <a href="/delete-info/{{ info.id }}" type="button" class="close">
             <span aria-hidden="true">&times;</span>
         </a>
