@@ -21,7 +21,9 @@ def login():
             # проверка хэш пароля по бд
             if check_password_hash(user.password, password):
                 flash('Вы вошли в аккаунт', category='success')
+                # запомнить, что пользователь авторизовался
                 login_user(user, remember=True)
+                # переход на страницу личного кабинета с заметками
                 return redirect(url_for('routes.home'))
             else:
                 flash('Неверный пароль или email, попробуйте ещё раз', category='error')
@@ -73,8 +75,10 @@ def sign_up():
             new_user.password = generate_password_hash(password1, method='sha256')
             db.session.add(new_user)
             db.session.commit()
+            # после регистрации пользователь сразу входит в личный кабинет, запоминаем
             login_user(new_user, remember=True)
             flash("Учётная запись создана успешно!", category='success')
+            # переход на страницу личного кабинета
             return redirect(url_for('routes.home'))
 
     # подгружаем html шаблон страницы
