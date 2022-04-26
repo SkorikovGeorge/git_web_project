@@ -4,7 +4,6 @@ from .models import User
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
 auth = Blueprint('auth', __name__)
 
 
@@ -52,8 +51,8 @@ def sign_up():
             flash("ФИО должно быть длиннее 1-го символа", category='error')
         elif password1 != password2:
             flash("Пароли не совпадают", category='error')
-        elif len(password1) < 7:
-            flash("Пароль должен включать не менее 7-ми символов", category='error')
+        elif check_password(password1) != 'ок':
+            flash(check_password(password1), category='error')
         else:
             new_user = User()
             new_user.email = email
@@ -66,3 +65,32 @@ def sign_up():
             return redirect(url_for('routes.home'))
 
     return render_template("sign_up.html", user=current_user)
+
+
+def check_password(password):
+    # проверка длины пароля
+    if len(password) < 8:
+        return "Пароль должен включать не менее 8-ми символов"
+    else:
+        # проверка на подряд идущие символы и наличие цифр
+        lower_password = password.lower()
+        symbols_row = -1
+        k_numbers = 0
+        last_symbol = 0
+        for symbol in list(lower_password):
+            if symbols_row == -1:
+                last_symbol = ord(symbol)
+                symbols_row = 0
+            else:
+                if last_symbol + 1 == ord(symbol):
+                    symbols_row += 1
+                last_symbol = ord(symbol)
+            if symbol.isdigit():
+                k_numbers += 1
+        if symbols_row > 3:
+            return 'В пароле присутствуют подряд идущие символы в количестве более 3-ёх'
+        else:
+            if k_numbers < 1:
+                return 'В пароле должна быть хоть одна цифра'
+            else:
+                return 'ок'
