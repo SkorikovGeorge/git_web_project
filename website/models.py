@@ -5,10 +5,11 @@ from . import db
 # класс для таблицы с данными о пользователе
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    # нельзя зарегестрировать два аккаунта на один email
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(50))
     name = db.Column(db.String(100))
-    # внешний ключ
+    # внешний ключ к таблице с заметками
     all_info = db.relationship('Info')
 
 

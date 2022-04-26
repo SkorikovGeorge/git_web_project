@@ -28,6 +28,7 @@ def home():
                     result.append(i.info)
                     # result - список текстов найденных с find_text заметок
             if result:
+                # если заметки нашлись - переходим на страницу для отображения результатов поиска
                 return redirect(url_for('routes.results', result=result))
             else:
                 flash('По вашему запросу ничего не найдено', category='error')
@@ -62,6 +63,7 @@ def delete_info(id):
     try:
         db.session.delete(text_to_delete)
         db.session.commit()
+        # переход на страницу личного кабинета
         return redirect(url_for('routes.home'))
     except:
         return 'Ошибка удаления'

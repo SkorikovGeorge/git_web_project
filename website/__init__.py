@@ -27,6 +27,7 @@ def create_app():
 
     # делаем логин менеджер
     login_manager = LoginManager()
+    # если вышел из аккаунта, по умолчанию направляет на страницу логин
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
