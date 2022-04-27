@@ -60,8 +60,8 @@ def sign_up():
             flash('Аккаунт с таким email уже существует', category='error')
         elif check_email(email) != 'ок':
             flash(check_email(email), category='error')
-        elif len(firstname) < 2:
-            flash("ФИО должно быть длиннее 1-го символа", category='error')
+        elif check_firstname(firstname) != 'ок':
+            flash(check_firstname(firstname), category='error')
         elif password1 != password2:
             flash("Пароли не совпадают", category='error')
         elif check_password(password1) != 'ок':
@@ -144,3 +144,35 @@ def check_email(eml):
                             return 'Email должен содержать только буквы и цифры'
                         else:
                             return 'ок'
+
+
+# проверка ФИО на корректность
+def check_firstname(name):
+    lower_name = name.lower()
+    # разделяю полученные данные ФИО на имя, фамилию и отчество
+    # проверяю, что они все были введены
+    list_of_name_parts = lower_name.split()
+    if len(list_of_name_parts) != 3:
+        return 'ФИО - это имя, фамилия и отчество)))'
+    else:
+        # проверяю каждую часть ФИО на минимальную длину
+        length_flag = True
+        for name_part in list_of_name_parts:
+            if len(name_part) < 2:
+                length_flag = False
+        if not length_flag:
+            return 'Ваше имя, фамилия или отчество слишком короткое'
+        else:
+            # проверяю, что каждая часть ФИО состоит лишь из букв
+            symbol_flag = True
+            for name_part in list_of_name_parts:
+                normal_symbols = 0
+                for symbol in list(name_part):
+                    if symbol.isalpha():
+                        normal_symbols += 1
+                if len(name_part) != normal_symbols:
+                    symbol_flag = False
+            if symbol_flag:
+                return 'ок'
+            else:
+                return 'ФИО должно состоять только из букв'
