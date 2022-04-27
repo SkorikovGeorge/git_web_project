@@ -58,8 +58,8 @@ def sign_up():
         user = User.query.filter_by(email=email).first()
         if user:
             flash('Аккаунт с таким email уже существует', category='error')
-        elif len(email) < 4:
-            flash("Email должен быть длиннее 3-ех символов", category='error')
+        elif check_email(email) != 'ок':
+            flash(check_email(email), category='error')
         elif len(firstname) < 2:
             flash("ФИО должно быть длиннее 1-го символа", category='error')
         elif password1 != password2:
@@ -90,7 +90,7 @@ def check_password(password):
     if len(password) < 8:
         return "Пароль должен включать не менее 8-ми символов"
     else:
-        # проверка на подряд идущие символы и наличие цифр
+        # проверка на подряд идущие символы
         lower_password = password.lower()
         symbols_row = -1
         k_numbers = 0
@@ -108,7 +108,39 @@ def check_password(password):
         if symbols_row > 3:
             return 'В пароле присутствуют подряд идущие символы в количестве более 3-ёх'
         else:
+            # проверка на наличие хотя бы одной цифры
             if k_numbers < 1:
                 return 'В пароле должна быть хоть одна цифра'
             else:
                 return 'ок'
+
+
+# проверяю почту на корректность
+def check_email(eml):
+    lower_email = eml.lower()
+    if len(lower_email) < 5:
+        return 'Email должен содержать 5-ть и более символов'
+    else:
+        if '@' not in lower_email:
+            return 'Email должна содержать символ "@"'
+        else:
+            if '.com' not in lower_email and '.ru' not in lower_email:
+                return 'Почта должна содержать ".com" или ".ru"'
+            else:
+                if lower_email[-3:] != ".ru" and lower_email[-4:] != ".com":
+                    return 'В email запись ".ru" или ".com" должна находиться на конце'
+                else:
+                    if len(lower_email) - len(lower_email.replace('.', '')) != 1:
+                        return 'Email может содержать лишь одну точку'
+                    else:
+                        normal_symbols = 0
+                        eml_first_part = lower_email.split('@')[0]
+                        for symbol in eml_first_part:
+                            if symbol.isalpha():
+                                normal_symbols += 1
+                            elif symbol.isdigit():
+                                normal_symbols += 1
+                        if len(eml_first_part) != normal_symbols:
+                            return 'Email должен содержать только буквы и цифры'
+                        else:
+                            return 'ок'

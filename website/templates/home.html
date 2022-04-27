@@ -1,5 +1,6 @@
 {% extends "base.html" %} {% block title %}Главная{% endblock %} {% block content %}
 <br/>
+<!--выводим даные об аккаунте пользователя серым справа-->
 <h6 style="color: grey" align="right">Email: {{ user.email }}</h6>
 <h6 style="color: grey" align="right">ФИО: {{ user.name }}</h6>
 <br/>
@@ -8,16 +9,20 @@
 <br/>
 <br/>
 <form method="POST">
+    <!--создаю форму поиска-->
     <div class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" name="find" id="find" type="search" placeholder="Поиск заметок"
                aria-label="Search">
+        <!--кнопка отправки данных поиска-->
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
     </div>
     <br/>
     <div>
+        <!--создаем поле для записи заметок-->
         <textarea name="info" id="info" class="form-control"></textarea>
         <br/>
         <div align="center">
+            <!--кнопка добавления заметки-->
             <button type="submit" class="btn btn-primary">Добавить заметку</button>
         </div>
     </div>

@@ -1,5 +1,7 @@
+<!--создаем страницу регистрации-->
 {% extends "base.html" %} {% block title %}Регистрация{% endblock %}
 {% block content %}
+<!--создаем формы для записи данных-->
 <form method="POST">
   <h3 align="center">Регистрация</h3>
   <div class="form-group">
@@ -19,6 +21,7 @@
     <input type="password" class="form-control" id="password2" name="password2" placeholder="Повторите пароль"/>
   </div>
   <br />
+  <!--создаем кнопку для отправки формы на обработку-->
   <button type="submit" class="btn btn-primary">Далее</button>
 </form>
 {% endblock %}

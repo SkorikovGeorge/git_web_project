@@ -1,12 +1,14 @@
 {% extends "base.html" %} {% block title %}Войти{% endblock %}
-
+<!--создаем начальный экран/экран входа пользователей-->
 {% block content %}
 <form method="POST">
   <br />
+  <!--выводим приветственные (стартовые) надписи-->
   <h1 align="center">Online Notebook</h1>
   <h4 align="center">Чтобы начать работу, войдите или зарегистрируйтесь</h4>
   <h4 align="center">Войти</h4>
   <div class="form-group">
+    <!--создаем формы для записи данных-->
     <label for="email">Email</label>
     <input type="email" class="form-control" id="email" name="email" placeholder="Введите email"/>
   </div>
@@ -15,6 +17,7 @@
     <input type="password" class="form-control" id="password" name="password" placeholder="Введите пароль"/>
   </div>
   <br />
+  <!--кнопка отправки данных-->
   <button type="submit" class="btn btn-primary">Далее</button>
 </form>
 {% endblock %}
